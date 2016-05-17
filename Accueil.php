@@ -2,6 +2,10 @@
 session_start();
 include 'Fonctions.php';
 $bd = new PDO('mysql:host=localhost;dbname=gsb', 'root','');
+
+if (isset ($_SESSION['login']))
+{
+
 ?>
 
 
@@ -45,7 +49,8 @@ $bd = new PDO('mysql:host=localhost;dbname=gsb', 'root','');
                         </div>
 
                         <div class="col-xs-9 ">
-                            <h1>Page de remboursement des frais kilométriques</h1>                         
+                            <h1>Page de remboursement des frais kilométriques</h1>    
+                            <form method="post"> <button type="submit" class="btn btn-info" name="deconnexion"></span>&nbsp;Deconnexion&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right" ></span></button></form>                     
                         </div>
 
                     </div>
@@ -290,6 +295,11 @@ $bd = new PDO('mysql:host=localhost;dbname=gsb', 'root','');
 <!-- ***************************************************** Appel des fonctions suivant l'action de l'utilisateur ***************************************************** -->
 
 <?php
+
+}
+else {
+    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/index.php");</script>';
+}
 // Action Ajouter, Modifier, Supprimer
 
 // ************************************************************ Ajouter ************************************************************ 
@@ -362,6 +372,11 @@ if(isset($_POST['submitDeleteTarif']))
         $reqTest= $bd->query($sql);
         echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
     }
+
+if(isset($_POST['deconnexion']))
+{
+    deconnexion();
+}
 
 
 //q=$connexion->prepare($sql);

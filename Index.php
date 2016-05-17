@@ -1,5 +1,17 @@
 <!DOCTYPE html>
+<?php
 
+session_start();
+include 'Fonctions.php';
+$bd = new PDO('mysql:host=localhost;dbname=gsb', 'root','');
+
+if (isset ($_SESSION['login']))
+{
+	echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
+}
+else {
+
+?>
 
 <script >
 
@@ -7,7 +19,7 @@
 
 
 <head>
-	<title>Modification basse de donée</title>
+	<title>Connexion</title>
 	<meta charset="utf-8">
 	<link href="style/css/bootstrap.css" rel="stylesheet" />
 </head>
@@ -45,10 +57,10 @@
 						
 						<div class="col-xs-6 col-sm-3 col-md-8">
 
-							<form method="">
-								<div class="form-group"><label>identifiant</label> <input type="text" placeholder="identifiant" class="form-control" required="" aria-required="true"></div>
+							<form method="POST">
+								<div class="form-group"><label>identifiant</label> <input type="text" placeholder="identifiant" class="form-control" required="" aria-required="true" name="id"></div>
 								<div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control" name="password"></div>
-								<button type="submit" class="btn btn-info"></span>&nbsp;Connexion&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
+								<button type="submit" class="btn btn-info" name="submitConnexion"></span>&nbsp;Connexion&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
                             </div>
 							</form>
 						</div>
@@ -63,3 +75,13 @@
 
 
 	</body>
+<?php
+}
+	if(isset($_POST['submitConnexion']))
+{
+    $identifiant = $_POST['id'];
+    $motdepasse = $_POST['password'];
+
+    connexion($identifiant,$motdepasse,$bd);
+}
+?>

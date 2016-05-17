@@ -20,7 +20,7 @@ function deconnexion ()
 {
     session_unset ();
     session_destroy();
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/connexion.php");</script>';
+    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/index.php");</script>';
 }
 
 function deleteLigne($idTableau, $idLigne, $bd)
