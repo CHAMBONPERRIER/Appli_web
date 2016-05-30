@@ -282,6 +282,8 @@ th {
   font-style: normal;
   font-weight: normal;
   line-height: 1;
+  border: 0px;
+  background: white;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -307,6 +309,7 @@ th {
 }
 .glyphicon-pencil:before {
   content: "\270f";
+  color: #5882FA;
 }
 .glyphicon-glass:before {
   content: "\e001";
@@ -346,6 +349,8 @@ th {
 }
 .glyphicon-remove:before {
   content: "\e014";
+  color: #5882FA;
+  background: white;
 }
 .glyphicon-zoom-in:before {
   content: "\e015";
@@ -3362,6 +3367,11 @@ fieldset[disabled] .btn-warning.focus {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
+
+
+
+
+
 }
 .btn-danger:focus,
 .btn-danger.focus {
@@ -6841,3 +6851,27 @@ background-color:#81a2cf;
 .entete{
   background-color:#81a2cf;
 }
+
+.titre{
+  font-size : 30px;
+  text-align: left;
+  margin-left: 30px;
+  overflow: hidden;
+  padding-right: 30px;
+}
+
+.titre:after
+{
+    content:"";
+    display: inline-block;
+    height: 0.5em;
+    vertical-align: bottom;
+    width: 100%;
+    margin-right: -100%;
+    margin-left: 10px;
+    border-top: 1px solid black;
+
+}
+
+
+

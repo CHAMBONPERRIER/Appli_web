@@ -1,18 +1,35 @@
 <?php
 function connexion($identifiant,$motdepasse,$bd)
 {
-    $query= ("SELECT amdp FROM user WHERE login='$identifiant'");
-    $result = $bd->query($query);
-    $data = $result->fetch(PDO::FETCH_ASSOC);
+    $query= ("SELECT mdp FROM user WHERE login  = :identifiant");        
+    $statement = $bd->prepare($query);
+    $statement->execute(array('identifiant'=>$identifiant)); 
+    $data = $statement->fetch(PDO::FETCH_ASSOC);
 
-    if ($data['amdp'] !=$motdepasse) 
+    if ($data['mdp'] !=$motdepasse) 
     {
         echo "Erreur de connection, v&eacute;rifiez votre syntaxe";
     }
     else {
         $_SESSION['login']= $identifiant;
-        $_SESSION['password']=$motdepasse;
-        header ('location: http://localhost/Appli_web/Accueil.php');
+
+        $queryMetier = ("SELECT METIER FROM user WHERE login = :login");
+        $statementMetier = $bd->prepare($queryMetier);
+        $statementMetier->execute(array('login'=>$_SESSION['login']));
+        $dataMetier = $statementMetier->fetch(PDO::FETCH_ASSOC);
+
+        $_SESSION['metier'] = $dataMetier['METIER'];
+
+
+        if ($_SESSION['metier'] == "comptable")
+        {
+            echo '<script language="Javascript">document.location.replace("http://172.16.9.54/Appli_web/Accueil.php");</script>';
+        }
+        else
+        {
+            echo '<script language="Javascript">document.location.replace("http://172.16.9.54/Appli_web/Telechargement.php");</script>';
+        }
+
     }
 }
 
@@ -20,44 +37,6 @@ function deconnexion ()
 {
     session_unset ();
     session_destroy();
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/index.php");</script>';
-}
-
-function deleteLigne($idTableau, $idLigne, $bd)
-{
-    $query= ("DELETE FROM $idTableau WHERE ID = $idLigne");
-    $req= $bd->query($query);
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
-}
-
-function editLigne($idTableau, $idLigne, $libelle, $bd)
-{
-    $query= ("UPDATE $idTableau SET LIBELLE = '$libelle' WHERE ID = $idLigne");
-    $req= $bd->query($query);
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
-}
-
-function AddLigne($idTableau, $libelle, $bd)
-{
-    $query=("INSERT INTO $idTableau(ID, LIBELLE) VALUES ('', '$libelle')");
-    $req= $bd->query($query);
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
-}
-
-function AddLigneTarif($idTableau, $carburant2, $puissance2, $prix, $bd)
-{
-    while ($row = $carburant2->fetch(PDO::FETCH_ASSOC))
-    {
-        $idCarburant = $row['ID']; 
-    }
-
-    while ($row = $puissance2->fetch(PDO::FETCH_ASSOC))
-    {
-        $idPuissance = $row['ID']; 
-    }
-
-    $query=("INSERT INTO $idTableau(ID, PRIX, IDCARBURANT, IDPUISSANCE) VALUES ('', '$prix', '$idCarburant', '$idPuissance')");
-    $req= $bd->query($query);
-    echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
+    echo '<script language="Javascript">document.location.replace("http://172.16.9.54/Appli_web/index.php");</script>';
 }
 ?>

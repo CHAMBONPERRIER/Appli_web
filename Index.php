@@ -1,41 +1,39 @@
-<!DOCTYPE html>
 <?php
-
 session_start();
 include 'Fonctions.php';
-$bd = new PDO('mysql:host=localhost;dbname=gsb', 'root','');
+include 'ConnexionBd.php';
 
 if (isset ($_SESSION['login']))
 {
-	echo '<script language="Javascript">document.location.replace("http://localhost/Appli_web/Accueil.php");</script>';
+	echo '<script language="Javascript">document.location.replace("http://172.16.9.54/Appli_web/Accueil.php");</script>';
 }
 else {
 
-?>
+	?>
 
-<script >
+	<script >
 
-</script>
-
-
-<head>
-	<title>Connexion</title>
-	<meta charset="utf-8">
-	<link href="style/css/bootstrap.css" rel="stylesheet" />
-</head>
+	</script>
 
 
-<body class="page">
+	<head>
+		<title>Connexion</title>
+		<meta charset="utf-8">
+		<link href="style/css/bootstrap.css" rel="stylesheet" />
+	</head>
 
-	
 
-	<div class='container'>
+	<body class="page">
 
-		<!-- Présentation -->
-		<section class="row">
-			<div class="col-xs-12">
 
-				
+
+		<div class='container'>
+
+			<!-- Présentation -->
+			<section class="row">
+				<div class="col-xs-12">
+
+
 					<div class="hpanel">
 						<div class="panel-body">
 
@@ -44,44 +42,47 @@ else {
 								<img class="img-responsive"  src="./images/logo.jpg" id="logoGSB" alt="Laboratoire Galaxy-Swiss Bourdin" title="Laboratoire Galaxy-Swiss Bourdin">
 							</div>
 							<div class="col-xs-9 ">
-								<h1 >Remboursement des frais kilométriques</h1>
+								<h1>Remboursement des frais kilométriques</h1>
 								
 							</div>
 
 						</div>
 					</div>
-				
-				
-				<div class="hpanel hblue">
-					<div class="panel-body">
-						
-						<div class="col-xs-6 col-sm-3 col-md-8">
 
-							<form method="POST">
-								<div class="form-group"><label>identifiant</label> <input type="text" placeholder="identifiant" class="form-control" required="" aria-required="true" name="id"></div>
-								<div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control" name="password"></div>
-								<button type="submit" class="btn btn-info" name="submitConnexion"></span>&nbsp;Connexion&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
-                            </div>
-							</form>
+
+					<div class="hpanel hblue">
+						<div class="panel-body text-center" style="padding : 30px 80px 0px 80px;">
+
+							<div class="text-center">
+								<?php
+								if(isset($_POST['submitConnexion']))
+								{
+									$identifiant = $_POST['id'];
+									$motdepasse = sha1($_POST['password']);
+									connexion($identifiant,$motdepasse,$bd);
+								}
+								?>
+								<form method="POST">
+									<input type="text" placeholder="identifiant" class="form-control text-center" required="" aria-required="true" name="id">
+									<br>
+									<input type="password" placeholder="Password" class="form-control text-center" name="password">
+									<br>
+									<button type="submit" class="btn btn-info center-block" name="submitConnexion"></span>&nbsp;Connexion&nbsp;&nbsp;</button>
+
+								</form>
+							</div>
 						</div>
 
 					</div>
 				</div>
-			</div>
-
 			</section>
-		</div>
+</div>
 
-
-
-	</body>
 <?php
 }
-	if(isset($_POST['submitConnexion']))
-{
-    $identifiant = $_POST['id'];
-    $motdepasse = $_POST['password'];
 
-    connexion($identifiant,$motdepasse,$bd);
-}
+$bd = null;
 ?>
+
+
+</body>
